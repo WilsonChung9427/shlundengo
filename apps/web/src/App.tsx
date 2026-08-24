@@ -3,6 +3,7 @@ import Navbar from './components/Navbar'
 import Home from './pages/Home'
 import Search from './pages/Search'
 import PokemonDetail from './pages/PokemonDetail'
+import FamilyDetail from './pages/FamilyDetail'
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/search" element={<Search />} />
         <Route path="/pokemon/:slug" element={<PokemonDetail />} />
+        <Route path="/families/:slug" element={<FamilyDetail />} />
       </Routes>
     </div>
   )
