@@ -1,12 +1,20 @@
+import "dotenv/config";
 import Fastify from "fastify";
 import cors from "@fastify/cors";
+import { pokemonRoutes } from "./routes/pokemon.js";
+import { searchRoutes } from "./routes/search.js";
+import { familyRoutes } from "./routes/families.js";
+
 
 const app = Fastify({ logger: true });
 
-// Allow the Vite dev server to call this API during development.
 await app.register(cors, {
   origin: "http://localhost:5173",
 });
+
+await app.register(pokemonRoutes);
+await app.register(searchRoutes);
+await app.register(familyRoutes);
 
 app.get("/api/health", async () => {
   return { status: "ok", service: "pokemon-go-strings-api" };
