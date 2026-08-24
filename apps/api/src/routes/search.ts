@@ -32,10 +32,10 @@ export async function searchRoutes(app: FastifyInstance) {
 
     // Otherwise, search pokemon_forms by form_name (covers base names AND "Mega X" style names)
     // Also search the base pokemon.name, in case someone searches "venusaur" but not "mega venusaur"
-    const { data: formMatches, error: formError } = await supabase
+        const { data: formMatches, error: formError } = await supabase
       .from("pokemon_forms")
       .select("id, form_name, form_slug, is_mega, pokemon:pokemon_id(id, pokedex_number, name, slug, generation)")
-      .ilike("form_name", `%${rawQuery}%`)
+      .ilike("form_name", `${rawQuery}%`)
       .limit(20);
 
     if (formError) {
@@ -43,10 +43,10 @@ export async function searchRoutes(app: FastifyInstance) {
       return reply.status(500).send({ error: "Search failed." });
     }
 
-    const { data: nameMatches, error: nameError } = await supabase
+        const { data: nameMatches, error: nameError } = await supabase
       .from("pokemon")
       .select("id, pokedex_number, name, slug, generation")
-      .ilike("name", `%${rawQuery}%`)
+      .ilike("name", `${rawQuery}%`)
       .limit(20);
 
     if (nameError) {
