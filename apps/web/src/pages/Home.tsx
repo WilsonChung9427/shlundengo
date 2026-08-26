@@ -1,6 +1,11 @@
 import SearchBar from "../components/SearchBar";
+import { useAuth } from "../context/AuthContext";
+
+const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:3001";
 
 function Home() {
+  const { user, loading } = useAuth();
+
   return (
     <div className="max-w-3xl mx-auto px-8 py-16 text-center">
       <h1 className="text-4xl font-bold mb-4">Pokémon GO Strings</h1>
@@ -30,14 +35,20 @@ function Home() {
         </div>
       </div>
 
-      <div className="mt-12">
-        <button className="px-8 py-3 rounded bg-[#5865F2] hover:bg-[#4752C4] font-semibold">
-          Login with Discord
-        </button>
-        <p className="text-slate-500 text-xs mt-3">
-          Coming soon — Discord login isn't wired up yet.
-        </p>
-      </div>
+      {!loading && !user && (
+        <div className="mt-12">
+          <a
+            href={`${API_URL}/api/auth/discord/login`}
+            className="inline-block px-8 py-3 rounded bg-[#5865F2] hover:bg-[#4752C4] font-semibold"
+          >
+            Login with Discord
+          </a>
+        </div>
+      )}
+
+      {!loading && user && (
+        <p className="mt-12 text-slate-400">Welcome back, {user.username}!</p>
+      )}
     </div>
   );
 }
