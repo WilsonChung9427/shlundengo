@@ -42,3 +42,24 @@ export async function logout(): Promise<void> {
     credentials: "include",
   });
 }
+
+export interface PokemonString {
+  pokemon_form_id: string;
+  string_type: "TRADE" | "TRANSFER";
+  string_value: string;
+}
+
+export async function getPokemonStrings(
+  slug: string
+): Promise<{ data: PokemonString[] } | { error: string; status: number }> {
+  const res = await fetch(`${API_URL}/api/pokemon/${slug}/strings`, {
+    credentials: "include",
+  });
+
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({}));
+    return { error: body.error ?? "Request failed.", status: res.status };
+  }
+
+  return res.json();
+}
